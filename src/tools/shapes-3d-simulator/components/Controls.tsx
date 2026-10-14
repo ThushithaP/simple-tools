@@ -1,0 +1,131 @@
+import { ReactNode } from "react";
+
+const labelClass = "text-[11px] text-[#8FA39D]";
+const selectClass =
+  "w-full rounded border border-[#2A3A37] bg-[#0F1614] px-2 py-1.5 text-sm text-[#ECF2F0] focus:border-[#5FC7B8] focus:outline-none";
+
+export function SliderField({
+  label,
+  unit,
+  min,
+  max,
+  step,
+  value,
+  onChange,
+}: {
+  label: string;
+  unit: string;
+  min: number;
+  max: number;
+  step: number;
+  value: number;
+  onChange: (v: number) => void;
+}) {
+  return (
+    <div>
+      <div className="mb-1 flex items-center justify-between">
+        <label className={labelClass}>{label}</label>
+        <span className="font-mono text-xs text-[#ECF2F0]">
+          {value}
+          {unit}
+        </span>
+      </div>
+      <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))} className="w-full accent-[#5FC7B8]" aria-label={label} />
+    </div>
+  );
+}
+
+export function SelectField<T extends string>({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: T;
+  onChange: (v: T) => void;
+  options: { value: T; label: string }[];
+}) {
+  return (
+    <div>
+      <label className={`${labelClass} mb-1 block`}>{label}</label>
+      <select value={value} onChange={(e) => onChange(e.target.value as T)} className={selectClass} aria-label={label}>
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+export function SegmentedField<T extends string>({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: T;
+  onChange: (v: T) => void;
+  options: { value: T; label: string }[];
+}) {
+  return (
+    <div>
+      <label className={`${labelClass} mb-1 block`}>{label}</label>
+      <div className="flex flex-wrap rounded border border-[#2A3A37] overflow-hidden text-xs">
+        {options.map((o) => (
+          <button
+            key={o.value}
+            onClick={() => onChange(o.value)}
+            className={`flex-1 py-1.5 min-h-[44px] min-w-[44px] transition-colors ${
+              value === o.value ? "bg-[#5FC7B8] text-[#0D1412]" : "bg-[#0F1614] text-[#8FA39D]"
+            }`}
+          >
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function StatGrid({ stats }: { stats: { label: string; value: string; muted?: boolean }[] }) {
+  return (
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+      {stats.map((s) => (
+        <div key={s.label} className="rounded border border-[#2A3A37] bg-[#121A18] p-3 text-center">
+          <div className="text-[11px] uppercase tracking-wide text-[#8FA39D]">{s.label}</div>
+          <div className={`font-mono text-sm ${s.muted ? "text-[#5C726C]" : "text-[#ECF2F0]"}`}>{s.value}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+const PALETTE = ["#E85A4A", "#E8A33D", "#F2D14E", "#6FCF7A", "#5FC7B8", "#4A90E2", "#B98BD9", "#ECF2F0"];
+
+export function ColorPicker({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+  return (
+    <div>
+      <label className={`${labelClass} mb-1 block`}>{label}</label>
+      <div className="flex flex-wrap gap-1.5">
+        {PALETTE.map((c) => (
+          <button
+            key={c}
+            onClick={() => onChange(c)}
+            aria-label={`Color ${c}`}
+            className="h-7 w-7 rounded-full border-2 transition-transform hover:scale-110"
+            style={{ backgroundColor: c, borderColor: value === c ? "#ECF2F0" : "transparent" }}
+          />
+        ))}
+        <input type="color" value={value} onChange={(e) => onChange(e.target.value)} className="h-7 w-7 rounded-full border border-[#2A3A37] bg-transparent" aria-label="Custom color" />
+      </div>
+    </div>
+  );
+}
+
+export function InfoBox({ children }: { children: ReactNode }) {
+  return <div className="rounded border border-[#2A3A37] bg-[#121A18] p-3 text-xs text-[#8FA39D] leading-relaxed">{children}</div>;
+}
