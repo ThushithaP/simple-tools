@@ -3,6 +3,7 @@ import { TransistorConfig, TransistorType } from "../types";
 import { transistorAmplifier, transistorSwitch } from "../physics";
 import { SliderField, SegmentedField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
 import Chart from "../components/Chart";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const VBE_ON = 0.7; // silicon BJT assumption, standard for this teaching context
 
@@ -113,9 +114,9 @@ export default function TransistorMode() {
       <div className="space-y-6">
         {config === "switch" ? (
           <>
-            <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-6 flex items-center justify-center">
+            <FullscreenPanel fit="height" fitHeight="40dvh" cardClassName="rounded border border-[#2A3A37] bg-[#0D1412] p-6" contentClassName="flex items-center justify-center">
               <TransistorSwitchSchematic on={switchResult.ledOn} vce={switchResult.vce} />
-            </div>
+            </FullscreenPanel>
             <StatGrid
               stats={[
                 { label: "I_B", value: `${(switchResult.baseCurrentA * 1e6).toFixed(1)} µA` },

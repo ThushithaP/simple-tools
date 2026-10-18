@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { CoreMaterial, LoadKind, TransformerFidelity } from "../types";
 import { analyzeTransformer } from "../physics";
 import { SliderField, SegmentedField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 export default function TransformerMode() {
   const [primaryV, setPrimaryV] = useState(240);
@@ -73,9 +74,9 @@ export default function TransformerMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <TransformerDiagram primaryTurns={primaryTurns} secondaryTurns={secondaryTurns} coreMaterial={coreMaterial} stepType={stepType} />
-        </div>
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

@@ -146,7 +146,7 @@ export function PlaybackControls({
   speed: number;
   onSpeedChange: (v: number) => void;
 }) {
-  const speeds = [0.25, 0.5, 1, 2, 5];
+  const speeds = [0.1,0.25, 0.5, 1, 2, 5];
   return (
     <div className="flex flex-wrap items-center justify-center gap-2">
       <button

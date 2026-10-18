@@ -12,6 +12,7 @@ import {
   copperMassDepositedGrams,
   gasVolumeCm3,
 } from "./chemistry";
+import FullscreenPanel from "../../components/FullscreenPanel";
 
 const COPPER_VISUAL_MAX_G = 0.5;
 const ANODE_VISUAL_MAX_G = 1.5;
@@ -92,11 +93,11 @@ export default function ElectrolysisSimulator() {
 
   return (
     <div className="min-h-full bg-[#0F1614] text-[#ECF2F0] px-6 py-8">
-      <div className="mx-auto max-w-7xl space-y-6">
+      <div className="mx-auto max-w-6xl space-y-6">
         <header className="space-y-1">
           <h1 className="text-xl font-semibold tracking-tight">Electrolysis Simulator</h1>
           <p className="text-sm text-[#8FA39D]">
-            Ion migration, electrode reactions, and electrode-material effects
+            Ion migration, electrode reactions, and electrode-material effects — O-Level electrochemistry.
           </p>
         </header>
 
@@ -117,9 +118,8 @@ export default function ElectrolysisSimulator() {
           />
 
           <div className="space-y-6">
-            <div className="flex flex-col items-center gap-4 rounded border border-[#2A3A37] bg-[#0D1412] p-6">
-              {/* <div className="flex flex-wrap items-start justify-center gap-4"> */}
-              <div className="flex items-start justify-center gap-4">
+            <FullscreenPanel cardClassName="rounded border border-[#2A3A37] bg-[#0D1412] p-6" contentClassName="flex flex-col items-center gap-4">
+              <div className="flex flex-wrap items-start justify-center gap-4">
                 <Cell
                   electrolyte={electrolyte}
                   reaction={reaction}
@@ -175,7 +175,7 @@ export default function ElectrolysisSimulator() {
                   🔬 Zoom anode
                 </button>
               </div>
-            </div>
+            </FullscreenPanel>
 
             <ReactionDisplay reaction={reaction} />
 

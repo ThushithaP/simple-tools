@@ -4,6 +4,7 @@ import { TYPICAL_VF, saturationCurrent, shockleyDiode } from "../physics";
 import { SliderField, SegmentedField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
 import Chart from "../components/Chart";
 import BandBendingDiagram from "../components/BandBendingDiagram";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const V_MIN = -10;
 const V_MAX = 1;
@@ -129,10 +130,10 @@ export default function DiodeIVMode() {
           <div className="mt-1 text-center text-[10px] text-[#5C726C]">Dashed amber line: typical turn-on / "knee" voltage</div>
         </div>
 
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <div className="mb-2 text-[11px] uppercase tracking-wide text-[#8FA39D]">Band bending at current bias</div>
           <BandBendingDiagram builtInV={knee} biasV={voltage} />
-        </div>
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

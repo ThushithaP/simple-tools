@@ -3,6 +3,7 @@ import { ConvectionFluid, ConvectionType } from "../types";
 import { convectionCoefficient, convectionHeatRate } from "../physics";
 import { SliderField, SegmentedField, StatGrid, EquationBox, MisconceptionTip, PlaybackControls } from "../components/Controls";
 import { tempToColor } from "../components/tempColor";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const AMBIENT_C = 20;
 const FLUID_THERMAL_MASS = 800; // nominal m*c for the modeled fluid volume, tuned for a watchable approach
@@ -98,9 +99,9 @@ export default function ConvectionMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <ConvectionVisual temp={tempRef.current} time={timeRef.current} convType={convType} fanSpeedPct={fanSpeedPct} />
-        </div>
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

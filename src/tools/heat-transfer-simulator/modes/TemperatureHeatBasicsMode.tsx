@@ -3,6 +3,7 @@ import { SpecificHeatMaterial } from "../types";
 import { SPECIFIC_HEAT, equilibriumTemp } from "../physics";
 import { SliderField, SelectField, SegmentedField, StatGrid, EquationBox, MisconceptionTip, PlaybackControls } from "../components/Controls";
 import { tempToColor } from "../components/tempColor";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const AMBIENT_C = 22;
 const COUPLING = 8; // W/K, arbitrary but tuned for a watchable few-second approach
@@ -126,9 +127,9 @@ export default function TemperatureHeatBasicsMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <ParticleBoxes t1={t1Ref.current} t2={t2Ref.current} minTemp={minTemp} maxTemp={maxTemp} time={timeRef.current} />
-        </div>
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

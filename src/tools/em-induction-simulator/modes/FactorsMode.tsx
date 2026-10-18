@@ -3,6 +3,7 @@ import { MotionType } from "../types";
 import { faradayAtPosition, acGenerator } from "../physics";
 import { SliderField, SegmentedField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
 import Chart from "../components/Chart";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const DOMAIN_M = 0.15;
 
@@ -106,14 +107,14 @@ export default function FactorsMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <div className="mb-1 text-[11px] uppercase tracking-wide text-[#8FA39D]">Flux Φ(t)</div>
           <Chart series={[{ points: fluxPoints, color: "#4A90E2" }]} xLabel="t (s)" yLabel="Wb" xMax={6} yMin={-maxPhi * 1.1} yMax={maxPhi * 1.1} />
-        </div>
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        </FullscreenPanel>
+        <FullscreenPanel>
           <div className="mb-1 text-[11px] uppercase tracking-wide text-[#8FA39D]">Induced EMF ε(t)</div>
           <Chart series={[{ points: emfPoints, color: "#5FC7B8" }]} xLabel="t (s)" yLabel="V" xMax={6} yMin={-maxEmf} yMax={maxEmf} />
-        </div>
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

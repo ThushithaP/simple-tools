@@ -3,6 +3,7 @@ import { MirrorType } from "../types";
 import { thinElementImage, mirrorPrincipalRays } from "../optics";
 import { SliderField, SegmentedField, ToggleField, StatGrid, EquationBox, MisconceptionTip, DataTable } from "../components/Controls";
 import OpticalBench from "../components/OpticalBench";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 function scenarioLabel(concave: boolean, objectDistance: number, fMag: number): string {
   if (!concave) return "Convex mirror: always virtual, upright, diminished, behind the mirror.";
@@ -72,7 +73,7 @@ export default function CurvedMirrorMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <OpticalBench
             kind={concave ? "mirror-concave" : "mirror-convex"}
             fMag={fMag}
@@ -87,7 +88,7 @@ export default function CurvedMirrorMode() {
             showFocalPoints={showFocalPoints}
             zoom={zoom}
           />
-        </div>
+        </FullscreenPanel>
 
         <div className="rounded border border-dashed border-[#3A4B48] p-3 text-xs text-[#8FA39D]">
           {scenarioLabel(concave, objectDistance, fMag)}

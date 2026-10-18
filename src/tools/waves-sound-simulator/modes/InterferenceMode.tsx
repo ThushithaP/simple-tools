@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { INTERFERENCE_WAVE_SPEED, interferenceAt, wavelengthFromSpeed } from "../physics";
 import { SliderField, StatGrid, EquationBox, PlaybackControls, MisconceptionTip } from "../components/Controls";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const NX = 180;
 const NY = 100;
@@ -18,7 +19,7 @@ export default function InterferenceMode() {
   const [phaseDiffDeg, setPhaseDiffDeg] = useState(0);
   const [freqA, setFreqA] = useState(1.5);
   const [freqB, setFreqB] = useState(1.5);
-  const [running, setRunning] = useState(false);
+  const [running, setRunning] = useState(true);
   const [speed, setSpeed] = useState(1);
   const [detector, setDetector] = useState({ x: DOMAIN_W_M * 0.7, y: DOMAIN_H_M * 0.5 });
 
@@ -124,7 +125,7 @@ export default function InterferenceMode() {
 
   function reset() {
     timeRef.current = 0;
-    setRunning(false);
+    setRunning(true);
   }
 
   return (
@@ -148,7 +149,13 @@ export default function InterferenceMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel
+          aspect={NX / NY}
+          caption="Click anywhere to move the detector (white ring). Orange dots are the two sources."
+          controls={
+            <PlaybackControls running={running} onToggleRunning={() => setRunning((r) => !r)} onReset={reset} speed={speed} onSpeedChange={setSpeed} />
+          }
+        >
           <canvas
             ref={canvasRef}
             width={NX}
@@ -157,13 +164,7 @@ export default function InterferenceMode() {
             style={{ width: "100%", height: DISPLAY_H, imageRendering: "auto", cursor: "crosshair" }}
             className="rounded border border-[#2A3A37]"
           />
-          <div className="mt-2 text-center text-[10px] text-[#5C726C]">
-            Click anywhere to move the detector (white ring). Orange dots are the two sources.
-          </div>
-          <div className="mt-3">
-            <PlaybackControls running={running} onToggleRunning={() => setRunning((r) => !r)} onReset={reset} speed={speed} onSpeedChange={setSpeed} />
-          </div>
-        </div>
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

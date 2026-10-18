@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { SliderField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const CANVAS_W = 720;
 const CANVAS_H = 320;
@@ -62,7 +63,7 @@ export default function PlaneMirrorMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <svg viewBox={`0 0 ${CANVAS_W} ${CANVAS_H}`} width="100%" height="auto" role="img" aria-label="Plane mirror ray diagram">
             <rect x={0} y={0} width={CANVAS_W} height={CANVAS_H} fill="#0D1412" />
             {/* mirror surface */}
@@ -101,7 +102,7 @@ export default function PlaneMirrorMode() {
 
             <circle cx={hitP.x} cy={hitP.y} r={2.5} fill="#ECF2F0" />
           </svg>
-        </div>
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

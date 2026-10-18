@@ -16,6 +16,7 @@ import {
   wavelengthFromSpeed,
 } from "../physics";
 import { SliderField, SegmentedField, StatGrid, EquationBox, PlaybackControls, MisconceptionTip } from "../components/Controls";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 import WaveChart from "../components/WaveChart";
 
 const DOMAIN_M = 8; // visible string length in meters
@@ -31,7 +32,7 @@ export default function StringWaveMode() {
   const [tension, setTension] = useState<TensionLevel>("medium");
   const [damping, setDamping] = useState<DampingLevel>("none");
   const [boundary, setBoundary] = useState<BoundaryType>("fixed");
-  const [running, setRunning] = useState(false);
+  const [running, setRunning] = useState(true);
   const [speed, setSpeed] = useState(1);
   const [snapshot, setSnapshot] = useState<number[]>(new Array(GRID_N).fill(0));
   const [timeHistory, setTimeHistory] = useState<{ x: number; y: number }[]>([]);
@@ -60,7 +61,7 @@ export default function StringWaveMode() {
     timeRef.current = 0;
     historyBufferRef.current = [];
     setTimeHistory([]);
-    setRunning(false);
+    setRunning(true);
   }
 
   useEffect(() => {
@@ -239,12 +240,14 @@ export default function StringWaveMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
-          <canvas ref={canvasRef} width={CANVAS_W} height={CANVAS_H} className="w-full h-auto rounded" />
-          <div className="mt-3">
+        <FullscreenPanel
+          aspect={CANVAS_W / CANVAS_H}
+          controls={
             <PlaybackControls running={running} onToggleRunning={() => setRunning((r) => !r)} onReset={reset} speed={speed} onSpeedChange={setSpeed} />
-          </div>
-        </div>
+          }
+        >
+          <canvas ref={canvasRef} width={CANVAS_W} height={CANVAS_H} className="w-full h-auto rounded" />
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

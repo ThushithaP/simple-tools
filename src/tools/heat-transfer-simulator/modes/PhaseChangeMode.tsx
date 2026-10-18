@@ -3,6 +3,7 @@ import { Phase, PhaseChangeSubstance } from "../types";
 import { SUBSTANCES, boilingPointAtPressure, simulatePhaseChange } from "../physics";
 import { SliderField, SelectField, SegmentedField, StatGrid, EquationBox, MisconceptionTip, PlaybackControls } from "../components/Controls";
 import Chart from "../components/Chart";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 type StartPhase = "solid" | "liquid" | "gas";
 type Direction = "heat" | "cool";
@@ -131,9 +132,9 @@ export default function PhaseChangeMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <MolecularView phase={result.phase} />
-        </div>
+        </FullscreenPanel>
 
         <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
           <div className="mb-1 text-[11px] uppercase tracking-wide text-[#8FA39D]">Heating/cooling curve</div>

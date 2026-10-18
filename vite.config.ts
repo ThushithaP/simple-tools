@@ -9,6 +9,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import path from 'node:path'
 
 export default defineConfig({
   plugins: [
@@ -17,13 +18,13 @@ export default defineConfig({
       injectRegister: null,
       registerType: 'autoUpdate',
 
-      includeAssets: ['favicon.ico'],
+      includeAssets: ['favicon.ico','apple-touch-icon.png'],
 
       manifest: {
         id: '/',
-        name: 'Tools',
-        short_name: 'Tools',
-        description: 'A collection of useful online tools',
+        name: 'Simple Tools',
+        short_name: 'Simple Tools',
+        description: 'A growing collection of useful calculators, scientific simulators, converters, and everyday utilities.',
         theme_color: '#0f172a',
         background_color: '#ffffff',
         display: 'standalone',

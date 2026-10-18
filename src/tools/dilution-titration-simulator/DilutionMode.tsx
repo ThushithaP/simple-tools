@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import Beaker from "./components/Beaker";
 import { DilutionStep, formatNumber, resolveDilutionChain } from "./chemistry";
+import FullscreenPanel from "../../components/FullscreenPanel";
 
 const TEAL_RGB = "95, 199, 184";
 
@@ -108,7 +109,7 @@ export default function DilutionMode() {
       </div>
 
       {/* Visual */}
-      <div className="flex flex-col items-center justify-center gap-6 rounded border border-[#2A3A37] bg-[#0D1412] p-8">
+      <FullscreenPanel fit="height" fitHeight="38dvh" cardClassName="rounded border border-[#2A3A37] bg-[#0D1412] p-8" contentClassName="flex flex-col items-center justify-center gap-6">
         <div className="flex flex-wrap items-end justify-center gap-6">
           <Beaker
             fillRatio={1}
@@ -138,7 +139,7 @@ export default function DilutionMode() {
             {formatNumber(stockConc / Math.max(finalConc, 1e-12), 1)}× dilution from stock
           </div>
         </div>
-      </div>
+      </FullscreenPanel>
     </div>
   );
 }

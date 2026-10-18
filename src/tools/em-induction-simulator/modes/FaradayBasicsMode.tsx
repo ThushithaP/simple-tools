@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { faradayAtPosition } from "../physics";
 import { SliderField, SegmentedField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
 import MagnetCoilDiagram from "../components/MagnetCoilDiagram";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 type MotionMode = "manual" | "auto" | "single";
 type LoadType = "Galvanometer" | "Bulb" | "Voltmeter" | "Ammeter";
@@ -129,7 +130,7 @@ export default function FaradayBasicsMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <MagnetCoilDiagram
             magnetXMeters={magnetXRef.current}
             domainMeters={DOMAIN_M}
@@ -150,7 +151,7 @@ export default function FaradayBasicsMode() {
             </div>
           )}
           {stationary && <div className="mt-2 text-center text-[10px] text-[#5C726C]">Magnet stationary — no EMF, no current.</div>}
-        </div>
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

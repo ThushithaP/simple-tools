@@ -3,6 +3,7 @@ import { SpecificHeatMaterial } from "../types";
 import { SPECIFIC_HEAT, specificHeatFromExperiment } from "../physics";
 import { SliderField, SelectField, StatGrid, EquationBox, MisconceptionTip, PlaybackControls } from "../components/Controls";
 import Chart from "../components/Chart";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 export default function SpecificHeatMode() {
   const [material, setMaterial] = useState<SpecificHeatMaterial>("water");
@@ -84,9 +85,9 @@ export default function SpecificHeatMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <HeaterVisual temp={latest.measuredTemp} initialTemp={initialTempC} powerW={powerW} running={running} />
-        </div>
+        </FullscreenPanel>
 
         <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
           <div className="mb-1 text-[11px] uppercase tracking-wide text-[#8FA39D]">Temperature vs. time</div>

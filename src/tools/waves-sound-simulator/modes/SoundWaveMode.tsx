@@ -14,6 +14,7 @@ import {
   loudnessLabel,
 } from "../physics";
 import { SliderField, SelectField, StatGrid, EquationBox, PlaybackControls, MisconceptionTip } from "../components/Controls";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 import WaveChart from "../components/WaveChart";
 import { useOscillator } from "../components/useOscillator";
 
@@ -31,7 +32,7 @@ export default function SoundWaveMode() {
   const [pitchHz, setPitchHz] = useState(440); // used only for real audio + "wavelength in air" stat
   const [playSound, setPlaySound] = useState(false);
   const [muted, setMuted] = useState(false);
-  const [running, setRunning] = useState(false);
+  const [running, setRunning] = useState(true);
   const [speed, setSpeed] = useState(1);
   const [snapshot, setSnapshot] = useState<number[]>(new Array(GRID_N).fill(0));
 
@@ -58,7 +59,7 @@ export default function SoundWaveMode() {
   function reset() {
     if (lineRef.current) resetWaveLine(lineRef.current);
     timeRef.current = 0;
-    setRunning(false);
+    setRunning(true);
   }
 
   useEffect(() => {
@@ -216,12 +217,14 @@ export default function SoundWaveMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
-          <canvas ref={canvasRef} width={CANVAS_W} height={CANVAS_H} className="w-full h-auto rounded" />
-          <div className="mt-3">
+        <FullscreenPanel
+          aspect={CANVAS_W / CANVAS_H}
+          controls={
             <PlaybackControls running={running} onToggleRunning={() => setRunning((r) => !r)} onReset={reset} speed={speed} onSpeedChange={setSpeed} />
-          </div>
-        </div>
+          }
+        >
+          <canvas ref={canvasRef} width={CANVAS_W} height={CANVAS_H} className="w-full h-auto rounded" />
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

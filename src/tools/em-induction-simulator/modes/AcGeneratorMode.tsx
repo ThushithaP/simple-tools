@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { acGenerator, rpmToOmega } from "../physics";
 import { SliderField, StatGrid, EquationBox, MisconceptionTip, PlaybackControls } from "../components/Controls";
 import Chart from "../components/Chart";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 export default function AcGeneratorMode() {
   const [bTesla, setBTesla] = useState(0.8);
@@ -10,7 +11,7 @@ export default function AcGeneratorMode() {
   const [rpm, setRpm] = useState(600);
   const [loadOhm, setLoadOhm] = useState(100);
   const [running, setRunning] = useState(true);
-  const [speed, setSpeed] = useState(1);
+  const [speed, setSpeed] = useState(0.1);
 
   const thetaRef = useRef(0);
   const [, forceRender] = useState(0);
@@ -75,9 +76,9 @@ export default function AcGeneratorMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <RotatingCoil thetaRad={thetaRef.current} />
-        </div>
+        </FullscreenPanel>
         <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
           <div className="mb-1 text-[11px] uppercase tracking-wide text-[#8FA39D]">Oscilloscope — output EMF</div>
           <Chart series={[{ points: emfPoints, color: "#4A90E2" }]} xLabel="t (s)" yLabel="V" xMax={windowS} yMin={-result.peakEmfV * 1.15} yMax={result.peakEmfV * 1.15} />

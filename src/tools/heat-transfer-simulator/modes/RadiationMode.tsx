@@ -3,6 +3,7 @@ import { SurfaceFinish } from "../types";
 import { EMISSIVITY, netRadiation, radiatedPower, toKelvin } from "../physics";
 import { SliderField, SegmentedField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
 import { tempToColor } from "../components/tempColor";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 export default function RadiationMode() {
   const [objectTempC, setObjectTempC] = useState(500);
@@ -70,9 +71,9 @@ export default function RadiationMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <RadiationVisual objectTempC={objectTempC} surrTempC={surrTempC} emissivity={emissivity} time={time} netPower={netPower} distanceM={distanceM} />
-        </div>
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

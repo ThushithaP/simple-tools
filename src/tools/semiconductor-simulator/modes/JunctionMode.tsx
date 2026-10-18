@@ -3,6 +3,7 @@ import { Material } from "../types";
 import { junctionElectrostatics } from "../physics";
 import { SliderField, SegmentedField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
 import BandBendingDiagram from "../components/BandBendingDiagram";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const CANVAS_W = 720;
 const CANVAS_H = 280;
@@ -62,7 +63,7 @@ export default function JunctionMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <svg viewBox={`0 0 ${CANVAS_W} ${CANVAS_H}`} width="100%" height="auto" role="img" aria-label="p-n junction diagram">
             <rect x={0} y={0} width={CANVAS_W} height={CANVAS_H} fill="#0D1412" />
             {/* p-side */}
@@ -112,13 +113,13 @@ export default function JunctionMode() {
               W = {result.depletionWidthUm.toFixed(3)} μm
             </text>
           </svg>
-        </div>
+        </FullscreenPanel>
 
         {/* simplified band diagram with bending */}
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <div className="mb-2 text-[11px] uppercase tracking-wide text-[#8FA39D]">Energy Band Diagram (across junction)</div>
           <BandBendingDiagram builtInV={result.builtInPotentialV} biasV={biasV} />
-        </div>
+        </FullscreenPanel>
 
         <div className="rounded border border-dashed border-[#3A4B48] p-3 text-xs text-[#8FA39D]">{currentBalanceLabel(biasV)}</div>
 

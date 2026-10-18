@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { bestCuboidArrangement } from "../geometry";
 import { SliderField, StatGrid, InfoBox, SegmentedField, ColorPicker } from "../components/Controls";
 import UnitCubesScene, { faceKey, BOX_FACE_NAMES } from "../components/UnitCubesScene";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const PRESETS = [1, 8, 27, 50, 64, 125];
 type Tool = "view" | "paint" | "cut";
@@ -14,6 +15,7 @@ export default function UnitCubesMode() {
   const [removedCubes, setRemovedCubes] = useState<Set<string>>(new Set());
   const [customFaceColors, setCustomFaceColors] = useState<Record<string, string>>({});
   const [lastPainted, setLastPainted] = useState<string | null>(null);
+  const [layerColor, setLayerColor] = useState<boolean>(false);
 
   const arrangement = useMemo(() => bestCuboidArrangement(n), [n]);
   const cube27 = useMemo(() => bestCuboidArrangement(27), []);
@@ -75,20 +77,25 @@ export default function UnitCubesMode() {
       <div className="space-y-5">
         <div className="rounded border border-[#2A3A37] bg-[#121A18] p-3 space-y-3">
           <div className="text-[11px] uppercase tracking-wide text-[#8FA39D]">How many unit cubes?</div>
-          <SliderField label="Quantity" unit=" cubes" min={1} max={150} step={1} value={n} onChange={setN} />
+          <SliderField label="Quantity" unit=" cubes" min={1} max={1000} step={1} value={n} onChange={setN} />
           <div className="flex flex-wrap gap-1.5">
             {PRESETS.map((p) => (
               <button
                 key={p}
                 onClick={() => setN(p)}
-                className={`rounded px-2.5 py-1.5 text-xs border transition-colors min-h-[36px] ${
-                  n === p ? "bg-[#5FC7B8] border-[#5FC7B8] text-[#0D1412]" : "bg-[#0F1614] border-[#2A3A37] text-[#8FA39D]"
-                }`}
+                className={`rounded px-2.5 py-1.5 text-xs border transition-colors min-h-[36px] ${n === p ? "bg-[#5FC7B8] border-[#5FC7B8] text-[#0D1412]" : "bg-[#0F1614] border-[#2A3A37] text-[#8FA39D]"
+                  }`}
               >
                 {p}
               </button>
             ))}
           </div>
+          <button
+            className="rounded px-2.5 py-1.5 text-xs border"
+            onClick={() => setLayerColor((prev) => !prev)}
+          >
+            {layerColor ? "Remove Layer Colors" : "Apply Layer Colors"}
+          </button>
         </div>
 
         <SliderField label="Explode (pull layers apart)" unit="" min={0} max={1} step={0.05} value={explode} onChange={setExplode} />
@@ -151,18 +158,21 @@ export default function UnitCubesMode() {
       </div>
 
       <div className="space-y-6">
-        <UnitCubesScene
-          x={arrangement.x}
-          y={arrangement.y}
-          z={arrangement.z}
-          explodeFactor={explode}
-          removedCubes={removedCubes}
-          customFaceColors={customFaceColors}
-          onCubeClick={handleCubeClick}
-        />
-        <div className="text-center text-[10px] text-[#5C726C]">
-          {tool === "view" ? "Drag to rotate • scroll to zoom" : tool === "paint" ? "Click any single face to paint just that face" : "Click any cube to cut it out"}
-        </div>
+        <FullscreenPanel
+          cardClassName=""
+          caption={tool === "view" ? "Drag to rotate • scroll to zoom" : tool === "paint" ? "Click any single face to paint just that face" : "Click any cube to cut it out"}
+        >
+          <UnitCubesScene
+            x={arrangement.x}
+            y={arrangement.y}
+            z={arrangement.z}
+            explodeFactor={explode}
+            removedCubes={removedCubes}
+            customFaceColors={customFaceColors}
+            lColor={layerColor}
+            onCubeClick={handleCubeClick}
+          />
+        </FullscreenPanel>
 
         <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4 space-y-2">
           <div className="text-sm font-medium text-[#ECF2F0]">
@@ -172,9 +182,8 @@ export default function UnitCubesMode() {
           <p className="text-xs text-[#8FA39D] leading-relaxed">
             {arrangement.isPerfectCube
               ? `${n} cubes arrange perfectly into a ${arrangement.x}×${arrangement.y}×${arrangement.z} cube — every side has the same length.`
-              : `${n} cubes can't form a perfect cube, but they arrange neatly into a ${arrangement.x}×${arrangement.y}×${arrangement.z} cuboid using all ${arrangement.used} of them${
-                  arrangement.leftover > 0 ? `, with ${arrangement.leftover} left over` : ""
-                }.`}
+              : `${n} cubes can't form a perfect cube, but they arrange neatly into a ${arrangement.x}×${arrangement.y}×${arrangement.z} cuboid using all ${arrangement.used} of them${arrangement.leftover > 0 ? `, with ${arrangement.leftover} left over` : ""
+              }.`}
           </p>
           <StatGrid
             stats={[

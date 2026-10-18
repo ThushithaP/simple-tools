@@ -3,8 +3,7 @@ import { Canvas, ThreeEvent } from "@react-three/fiber";
 import { OrbitControls, Grid } from "@react-three/drei";
 import * as THREE from "three";
 
-const LAYER_COLORS = ["#5FC7B8", "#E8A33D", "#4A90E2", "#E85A4A", "#6FCF7A", "#B98BD9", "#F2D14E"];
-
+const LAYER_COLORS = ["#5FC7B8", "#E8A33D", "#4A90E2", "#E85A4A", "#6FCF7A", "#B98BD9", "#F2D14E", "#F06FAE", "#36B9C6", "#FF8C69", "#8BC34A", "#7986CB", "#D4A373", "#26A69A", "#BA68C8", "#FFB74D", "#64B5F6", "#E57373", "#AED581", "#F06292"];
 // THREE.BoxGeometry's default material groups, in order: +x, -x, +y, -y, +z, -z
 export const BOX_FACE_NAMES = ["Right", "Left", "Top", "Bottom", "Front", "Back"];
 
@@ -24,6 +23,7 @@ interface UnitCubesSceneProps {
   cubeSize?: number;
   removedCubes: Set<string>;
   customFaceColors: Record<string, string>;
+  lColor:boolean;
   onCubeClick: (cubeKeyStr: string, faceIndex: number, ix: number, iy: number, iz: number) => void;
 }
 
@@ -37,7 +37,7 @@ function Cube({
 }: {
   cubeKeyStr: string;
   position: [number, number, number];
-  layerColor?: string;
+  layerColor: string;
   customFaceColors: Record<string, string>;
   size: number;
   onClick: (faceIndex: number) => void;
@@ -65,7 +65,7 @@ function Cube({
   );
 }
 
-export default function UnitCubesScene({ x, y, z, explodeFactor, cubeSize = 0.6, removedCubes, customFaceColors, onCubeClick }: UnitCubesSceneProps) {
+export default function UnitCubesScene({ x, y, z, explodeFactor, cubeSize = 0.6, removedCubes, customFaceColors,lColor, onCubeClick }: UnitCubesSceneProps) {
   const gap = cubeSize * (1 + explodeFactor * 1.8);
   const cubes = useMemo(() => {
     const list: { key: string; ix: number; iy: number; iz: number; position: [number, number, number]; layerColor: string }[] = [];
@@ -73,7 +73,8 @@ export default function UnitCubesScene({ x, y, z, explodeFactor, cubeSize = 0.6,
     const originY = ((y - 1) * gap) / 2;
     const originZ = ((z - 1) * gap) / 2;
     for (let iy = 0; iy < y; iy++) {
-      const layerColor = LAYER_COLORS[iy % LAYER_COLORS.length];
+      const layerColor = lColor ? LAYER_COLORS[iy % LAYER_COLORS.length] : '#ffffff';
+      
       for (let ix = 0; ix < x; ix++) {
         for (let iz = 0; iz < z; iz++) {
           list.push({
@@ -89,12 +90,12 @@ export default function UnitCubesScene({ x, y, z, explodeFactor, cubeSize = 0.6,
     }
     return list;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [x, y, z, gap]);
+  }, [x, y, z, gap,lColor]);
 
   const camDist = Math.max(4, (Math.max(x, y, z) * gap) / 1.3);
 
   return (
-    <div className="rounded border border-[#2A3A37] bg-[#0D1412]" style={{ height: 420 }}>
+    <div className="rounded border border-[#2A3A37] bg-[#0D1412]" style={{ height: "var(--fs-h, 420px)" }}>
       <Canvas shadows camera={{ position: [camDist, camDist * 0.8, camDist], fov: 45 }}>
         <ambientLight intensity={0.55} />
         <directionalLight position={[5, 8, 4]} intensity={1} castShadow />
@@ -106,7 +107,7 @@ export default function UnitCubesScene({ x, y, z, explodeFactor, cubeSize = 0.6,
               key={c.key}
               cubeKeyStr={c.key}
               position={c.position}
-              // layerColor={c.layerColor}
+              layerColor={c.layerColor}
               customFaceColors={customFaceColors}
               size={cubeSize}
               onClick={(faceIndex) => onCubeClick(c.key, faceIndex, c.ix, c.iy, c.iz)}

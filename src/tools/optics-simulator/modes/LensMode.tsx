@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { thinElementImage, lensPrincipalRays } from "../optics";
 import { SliderField, ToggleField, StatGrid, EquationBox, MisconceptionTip, DataTable } from "../components/Controls";
 import OpticalBench from "../components/OpticalBench";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 function scenarioLabel(converging: boolean, objectDistance: number, fMag: number): string {
   if (!converging) return "Diverging lens: always virtual, upright, diminished, on the same side as the object.";
@@ -66,7 +67,7 @@ export default function LensMode({ converging }: { converging: boolean }) {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <OpticalBench
             kind={converging ? "lens-converging" : "lens-diverging"}
             fMag={fMag}
@@ -81,7 +82,7 @@ export default function LensMode({ converging }: { converging: boolean }) {
             showFocalPoints={showFocalPoints}
             zoom={zoom}
           />
-        </div>
+        </FullscreenPanel>
 
         <div className="rounded border border-dashed border-[#3A4B48] p-3 text-xs text-[#8FA39D]">
           {scenarioLabel(converging, objectDistance, fMag)}

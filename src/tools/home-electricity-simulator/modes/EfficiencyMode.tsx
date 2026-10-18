@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { analyzeEfficiency, paybackYears } from "../physics";
 import { SliderField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 export default function EfficiencyMode() {
   const [oldPowerW, setOldPowerW] = useState(100);
@@ -45,14 +46,14 @@ export default function EfficiencyMode() {
 
       <div className="space-y-6">
         <div className="grid gap-4 sm:grid-cols-2">
-          <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+          <FullscreenPanel>
             <div className="mb-2 text-center text-[11px] uppercase tracking-wide text-[#E85A4A]">Old / inefficient</div>
             <SankeyFlow inputW={oldPowerW} outputW={oldResult.outputPowerW} wasteW={oldResult.wastedPowerW} color="#E85A4A" />
-          </div>
-          <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+          </FullscreenPanel>
+          <FullscreenPanel>
             <div className="mb-2 text-center text-[11px] uppercase tracking-wide text-[#5FC7B8]">New / efficient</div>
             <SankeyFlow inputW={newPowerW} outputW={newResult.outputPowerW} wasteW={newResult.wastedPowerW} color="#5FC7B8" />
-          </div>
+          </FullscreenPanel>
         </div>
 
         <StatGrid

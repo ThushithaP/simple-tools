@@ -1,6 +1,6 @@
 export type ElectrodeMaterial = "Graphite" | "Copper" | "Platinum" | "Iron";
 
-export type Electrolyte = "CuSO4" | "NaCl" | "H2SO4-water";
+export type Electrolyte = "CuSO4" | "NaCl" | "H2SO4-water" | "molten-CuSO4";
 
 export interface ReactionResult {
   cathodeEquation: string;

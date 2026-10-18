@@ -45,7 +45,7 @@ export default function ControlPanel({
           <option value="CuSO4">Copper(II) sulfate, CuSO4 (aq)</option>
           <option value="NaCl">Sodium chloride, NaCl (aq)</option>
           <option value="H2SO4-water">Water, acidified with H2SO4</option>
-          {/* <option value="molten-CuSO4">Molten CuSO4 (simplified)</option> */}
+          <option value="molten-CuSO4">Molten CuSO4 (simplified)</option>
         </select>
       </div>
 

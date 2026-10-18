@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { CircuitTopology } from "../types";
 import { analyzeBasicCircuit } from "../physics";
 import { SliderField, SegmentedField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 export default function BasicCircuitMode() {
   const [topology, setTopology] = useState<CircuitTopology>("series");
@@ -61,7 +62,7 @@ export default function BasicCircuitMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <CircuitDiagram
             topology={topology}
             numBulbs={numBulbs}
@@ -73,7 +74,7 @@ export default function BasicCircuitMode() {
           <div className="mt-2 text-center text-[10px] text-[#5C726C]">
             {topology === "series" ? "Click a bulb to simulate it failing (breaks the whole chain)." : "Click a bulb to simulate it failing (others stay lit)."}
           </div>
-        </div>
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { DopingType, Material } from "../types";
 import { BAND_GAP_EV, carrierConcentrations, fermiLevelOffsetEv } from "../physics";
 import { SliderField, SegmentedField, SelectField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const CANVAS_W = 720;
 const CANVAS_H = 260;
@@ -161,7 +162,7 @@ export default function SemiconductorBasicsMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel aspect={CANVAS_W / CANVAS_H}>
           <canvas ref={canvasRef} width={CANVAS_W} height={CANVAS_H} className="w-full h-auto rounded" />
           <div className="mt-2 flex flex-wrap gap-4 text-[10px] text-[#8FA39D] justify-center">
             <span>⚪ Si/Ge atom</span>
@@ -170,13 +171,13 @@ export default function SemiconductorBasicsMode() {
             <span className="text-[#4A90E2]">● electron</span>
             <span className="text-[#E85A4A]">● hole</span>
           </div>
-        </div>
+        </FullscreenPanel>
 
         {/* energy band diagram */}
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <div className="mb-2 text-[11px] uppercase tracking-wide text-[#8FA39D]">Energy Band Diagram</div>
           <BandDiagram eg={eg} fermiOffset={fermiOffset} />
-        </div>
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

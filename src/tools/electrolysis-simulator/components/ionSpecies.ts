@@ -30,7 +30,7 @@ export function ionSpecies(electrolyte: Electrolyte): IonSpeciesDef[] {
         { color: "#E8584A", symbol: "H⁺", name: "Hydrogen ion", toCathode: true, count: 10 },
         { color: "#6FCF7A", symbol: "OH⁻", name: "Hydroxide ion", toCathode: false, count: 10 },
       ];
-    // case "molten-CuSO4":
+    case "molten-CuSO4":
     default:
       return [
         { color: "#4A90E2", symbol: "Cu²⁺", name: "Copper(II) ion", toCathode: true, count: 10 },

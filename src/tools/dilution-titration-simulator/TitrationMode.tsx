@@ -10,6 +10,7 @@ import {
   formatNumber,
   indicatorColor,
 } from "./chemistry";
+import FullscreenPanel from "../../components/FullscreenPanel";
 
 const BURETTE_CAPACITY_ML = 50;
 const DRIP_INCREMENT_ML = 0.1;
@@ -27,9 +28,6 @@ export default function TitrationMode() {
   const [isAutoAdding, setIsAutoAdding] = useState(false);
   const [markedEndpointMl, setMarkedEndpointMl] = useState<number | null>(null);
   const intervalRef = useRef<number | null>(null);
-  const prevPhRef = useRef<number>(
-    calcTitrationPH(analyteConc, analyteVol, titrantConc, 0, analyteIsAcid)
-  );
 
   const indicator = INDICATORS[indicatorId];
   const veq = useMemo(
@@ -49,38 +47,13 @@ export default function TitrationMode() {
     setHistory([{ volumeMl: 0, pH: startPh }]);
     setMarkedEndpointMl(null);
     setIsAutoAdding(false);
-    prevPhRef.current = startPh;
   }, [analyteConc, analyteVol, titrantConc, analyteIsAcid]);
 
-  // function addTitrant(amountMl: number) {
-  //   setVolumeAdded((prev) => {
-  //     const next = Math.min(BURETTE_CAPACITY_ML, prev + amountMl);
-  //     const ph = calcTitrationPH(analyteConc, analyteVol, titrantConc, next, analyteIsAcid);
-  //     setHistory((h) => [...h, { volumeMl: next, pH: ph }]);
-  //     if (next >= BURETTE_CAPACITY_ML) setIsAutoAdding(false);
-  //     return next;
-  //   });
-  // }
-  // replace addTitrant with this version
   function addTitrant(amountMl: number) {
     setVolumeAdded((prev) => {
       const next = Math.min(BURETTE_CAPACITY_ML, prev + amountMl);
       const ph = calcTitrationPH(analyteConc, analyteVol, titrantConc, next, analyteIsAcid);
       setHistory((h) => [...h, { volumeMl: next, pH: ph }]);
-
-      // Auto-detect the color-change endpoint the instant pH crosses the
-      // indicator's transition midpoint — removes manual-click reaction-time error.
-      const midpoint = (indicator.lowPh + indicator.highPh) / 2;
-      const crossed =
-        (prevPhRef.current < midpoint && ph >= midpoint) ||
-        (prevPhRef.current > midpoint && ph <= midpoint);
-      prevPhRef.current = ph;
-
-      if (crossed) {
-        setMarkedEndpointMl((prevMark) => (prevMark === null ? next : prevMark));
-        setIsAutoAdding(false);
-      }
-
       if (next >= BURETTE_CAPACITY_ML) setIsAutoAdding(false);
       return next;
     });
@@ -96,20 +69,11 @@ export default function TitrationMode() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAutoAdding, analyteConc, analyteVol, titrantConc, analyteIsAcid]);
 
-  // function reset() {
-  //   setIsAutoAdding(false);
-  //   setVolumeAdded(0);
-  //   setMarkedEndpointMl(null);
-  //   setHistory([{ volumeMl: 0, pH: calcTitrationPH(analyteConc, analyteVol, titrantConc, 0, analyteIsAcid) }]);
-  // }
-  // also reset the ref in reset()
   function reset() {
     setIsAutoAdding(false);
     setVolumeAdded(0);
     setMarkedEndpointMl(null);
-    const startPh = calcTitrationPH(analyteConc, analyteVol, titrantConc, 0, analyteIsAcid);
-    setHistory([{ volumeMl: 0, pH: startPh }]);
-    prevPhRef.current = startPh; // ← add this line
+    setHistory([{ volumeMl: 0, pH: calcTitrationPH(analyteConc, analyteVol, titrantConc, 0, analyteIsAcid) }]);
   }
 
   function markEndpoint() {
@@ -158,15 +122,17 @@ export default function TitrationMode() {
           <div className="flex rounded border border-[#2A3A37] overflow-hidden text-sm">
             <button
               onClick={() => setAnalyteIsAcid(true)}
-              className={`flex-1 py-1.5 transition-colors ${analyteIsAcid ? "bg-[#5FC7B8] text-[#0D1412]" : "bg-[#0F1614] text-[#8FA39D]"
-                }`}
+              className={`flex-1 py-1.5 transition-colors ${
+                analyteIsAcid ? "bg-[#5FC7B8] text-[#0D1412]" : "bg-[#0F1614] text-[#8FA39D]"
+              }`}
             >
               Strong acid
             </button>
             <button
               onClick={() => setAnalyteIsAcid(false)}
-              className={`flex-1 py-1.5 transition-colors ${!analyteIsAcid ? "bg-[#5FC7B8] text-[#0D1412]" : "bg-[#0F1614] text-[#8FA39D]"
-                }`}
+              className={`flex-1 py-1.5 transition-colors ${
+                !analyteIsAcid ? "bg-[#5FC7B8] text-[#0D1412]" : "bg-[#0F1614] text-[#8FA39D]"
+              }`}
             >
               Strong base
             </button>
@@ -218,10 +184,11 @@ export default function TitrationMode() {
         <div className="flex gap-2">
           <button
             onClick={() => setIsAutoAdding((v) => !v)}
-            className={`flex-1 rounded py-2 text-sm border transition-colors ${isAutoAdding
-              ? "bg-[#E8A33D] border-[#E8A33D] text-[#0D1412]"
-              : "bg-[#17211F] border-[#2A3A37] text-[#ECF2F0] hover:border-[#5FC7B8]"
-              }`}
+            className={`flex-1 rounded py-2 text-sm border transition-colors ${
+              isAutoAdding
+                ? "bg-[#E8A33D] border-[#E8A33D] text-[#0D1412]"
+                : "bg-[#17211F] border-[#2A3A37] text-[#ECF2F0] hover:border-[#5FC7B8]"
+            }`}
           >
             {isAutoAdding ? "Stop drip" : "Continuous drip"}
           </button>
@@ -253,7 +220,7 @@ export default function TitrationMode() {
 
       {/* Visual + chart */}
       <div className="space-y-6">
-        <div className="flex flex-col items-center justify-center gap-4 rounded border border-[#2A3A37] bg-[#0D1412] p-6">
+        <FullscreenPanel fit="height" fitHeight="45dvh" cardClassName="rounded border border-[#2A3A37] bg-[#0D1412] p-6" contentClassName="flex flex-col items-center justify-center gap-4">
           <TitrationRig
             buretteRemaining={1 - volumeAdded / BURETTE_CAPACITY_ML}
             flaskFill={0.35 + volumeAdded / BURETTE_CAPACITY_ML}
@@ -274,7 +241,7 @@ export default function TitrationMode() {
               <div className="text-lg text-[#ECF2F0]">{formatNumber(veq, 2)} mL</div>
             </div>
           </div>
-        </div>
+        </FullscreenPanel>
 
         <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
           <div className="mb-2 text-xs uppercase tracking-wide text-[#8FA39D]">pH vs. volume added</div>

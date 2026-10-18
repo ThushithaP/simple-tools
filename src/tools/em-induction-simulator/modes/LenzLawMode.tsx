@@ -3,6 +3,7 @@ import { MagnetPole } from "../types";
 import { faradayAtPosition } from "../physics";
 import { SegmentedField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
 import MagnetCoilDiagram from "../components/MagnetCoilDiagram";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const DOMAIN_M = 0.15;
 const SPEED_MAP = { Slow: 0.03, Medium: 0.08, Fast: 0.18 };
@@ -104,7 +105,7 @@ export default function LenzLawMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <MagnetCoilDiagram
             magnetXMeters={magnetX}
             domainMeters={DOMAIN_M}
@@ -115,7 +116,7 @@ export default function LenzLawMode() {
             showInducedPoles
             showGalvanometer={false}
           />
-        </div>
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

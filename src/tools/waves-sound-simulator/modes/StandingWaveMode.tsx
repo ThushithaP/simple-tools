@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { StandingWaveGeometry, TensionLevel } from "../types";
 import { TENSION_SPEED, standingDisplacement } from "../physics";
 import { SliderField, SegmentedField, StatGrid, EquationBox, PlaybackControls, MisconceptionTip } from "../components/Controls";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const CANVAS_W = 720;
 const CANVAS_H = 240;
@@ -22,7 +23,7 @@ export default function StandingWaveMode() {
   const [tension, setTension] = useState<TensionLevel>("medium");
   const [amplitudeCm, setAmplitudeCm] = useState(50);
   const [frequency, setFrequency] = useState(1);
-  const [running, setRunning] = useState(false);
+  const [running, setRunning] = useState(true);
   const [speed, setSpeed] = useState(1);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -147,7 +148,7 @@ export default function StandingWaveMode() {
 
   function reset() {
     timeRef.current = 0;
-    setRunning(false);
+    setRunning(true);
   }
 
   return (
@@ -194,12 +195,14 @@ export default function StandingWaveMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
-          <canvas ref={canvasRef} width={CANVAS_W} height={CANVAS_H} className="w-full h-auto rounded" />
-          <div className="mt-3">
+        <FullscreenPanel
+          aspect={CANVAS_W / CANVAS_H}
+          controls={
             <PlaybackControls running={running} onToggleRunning={() => setRunning((r) => !r)} onReset={reset} speed={speed} onSpeedChange={setSpeed} />
-          </div>
-        </div>
+          }
+        >
+          <canvas ref={canvasRef} width={CANVAS_W} height={CANVAS_H} className="w-full h-auto rounded" />
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

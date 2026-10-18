@@ -80,7 +80,7 @@ export default function ShapeScene(props: ShapeSceneProps) {
   const controlsRef = useRef(null);
 
   return (
-    <div className="rounded border border-[#2A3A37] bg-[#0D1412]" style={{ height: 420 }}>
+    <div className="rounded border border-[#2A3A37] bg-[#0D1412]" style={{ height: "var(--fs-h, 420px)" }}>
       <Canvas shadows camera={{ position: [4, 3.2, 5], fov: 45 }} onPointerMissed={() => props.onSelectFace(null)}>
         <ambientLight intensity={0.55} />
         <directionalLight position={[5, 8, 4]} intensity={1} castShadow />

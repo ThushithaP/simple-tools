@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { FaultType } from "../types";
 import { faultSymptoms } from "../physics";
 import { SelectField, SegmentedField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const FAULT_LABELS: Record<FaultType, string> = {
   none: "No fault",
@@ -108,9 +109,9 @@ export default function FaultDiagnosisMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <FaultCircuitDiagram testPoint={testPoint} faultActive={actualFault !== "none"} />
-        </div>
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

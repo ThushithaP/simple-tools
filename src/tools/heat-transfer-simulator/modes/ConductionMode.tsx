@@ -4,6 +4,7 @@ import { THERMAL_CONDUCTIVITY, conductionHeatRate, thermalResistance, createRod,
 import { SliderField, SegmentedField, StatGrid, EquationBox, MisconceptionTip, PlaybackControls } from "../components/Controls";
 import { tempToColor } from "../components/tempColor";
 import Chart from "../components/Chart";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const GRID_N = 60;
 
@@ -111,9 +112,9 @@ export default function ConductionMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <RodVisual temps={snapshot} hotTemp={hotTemp} coldTemp={coldTemp} />
-        </div>
+        </FullscreenPanel>
 
         <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
           <div className="mb-1 text-[11px] uppercase tracking-wide text-[#8FA39D]">Temperature vs. position along rod</div>

@@ -4,6 +4,7 @@ import { computeShapeInfo, DEFAULT_DIMENSIONS, SHAPE_DIMENSION_FIELDS, SHAPE_LAB
 import { FaceGroup } from "../geometryBuilders";
 import { SliderField, SelectField, SegmentedField, StatGrid, ColorPicker, InfoBox } from "../components/Controls";
 import ShapeScene from "../components/ShapeScene";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const SHAPE_KEYS = Object.keys(SHAPE_LABELS) as ShapeKind[];
 
@@ -100,18 +101,22 @@ export default function ShapeExplorerMode() {
       </div>
 
       <div className="space-y-6">
-        <ShapeScene
-          shapeKind={shapeKind}
-          dimensions={dimensions}
-          renderMode={renderMode}
-          baseColor={baseColor}
-          faceColors={faceColors}
-          selectedFaceId={selectedFace?.id ?? null}
-          onSelectFace={setSelectedFace}
-          showEdges
-          showAxes={showAxes}
-        />
-        <div className="text-center text-[10px] text-[#5C726C]">Drag to rotate • scroll to zoom • click a face to select and recolor it</div>
+        <FullscreenPanel
+          cardClassName=""
+          caption="Drag to rotate • scroll to zoom • click a face to select and recolor it"
+        >
+          <ShapeScene
+            shapeKind={shapeKind}
+            dimensions={dimensions}
+            renderMode={renderMode}
+            baseColor={baseColor}
+            faceColors={faceColors}
+            selectedFaceId={selectedFace?.id ?? null}
+            onSelectFace={setSelectedFace}
+            showEdges
+            showAxes={showAxes}
+          />
+        </FullscreenPanel>
 
         {selectedFace && (
           <InfoBox>

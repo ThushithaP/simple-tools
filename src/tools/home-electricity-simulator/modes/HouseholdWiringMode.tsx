@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { WIRE_GAUGES, wireHeatLabel } from "../physics";
 import { SliderField, SegmentedField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const ROOM_OPTIONS = [1, 2, 3, 4] as const;
 
@@ -87,7 +88,7 @@ export default function HouseholdWiringMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <WiringDiagram
             numRooms={numRooms}
             lightingTripped={lightingTripped}
@@ -100,7 +101,7 @@ export default function HouseholdWiringMode() {
             <span className="text-[#4A90E2]">━ Neutral (Blue)</span>
             <span className="text-[#B8C24A]">━ Earth (Green-Yellow)</span>
           </div>
-        </div>
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

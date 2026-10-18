@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { McbType, fuseTripTime, mcbTripTime, rcdTripTime, shockSeverity } from "../physics";
 import { SliderField, SegmentedField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const BODY_RESISTANCE_OHM = 1000; // typical wet-skin approximation for teaching purposes
 
@@ -62,9 +63,9 @@ export default function SafetyDevicesMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <SafetyDiagram fuseBlown={fuse.tripped} mcbTripped={mcb.tripped} rcdTripped={rcd.tripped} earthed={earthed} faultActive={faultCurrentA > Math.min(fuseRatingA, mcbRatingA) || leakageMa > 0} />
-        </div>
+        </FullscreenPanel>
 
         {!earthed && leakageMa === 0 && faultCurrentA > mcbRatingA && (
           <div className="rounded border border-[#E85A4A] bg-[#E85A4A22] p-3 text-xs text-[#E85A4A]">

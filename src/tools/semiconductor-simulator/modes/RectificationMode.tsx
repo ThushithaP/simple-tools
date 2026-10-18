@@ -3,6 +3,7 @@ import { DiodeModel, RectifierCircuit } from "../types";
 import { rectifiedInstant, rectifierAnalysis } from "../physics";
 import { SliderField, SegmentedField, StatGrid, EquationBox, MisconceptionTip } from "../components/Controls";
 import Chart from "../components/Chart";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 export default function RectificationMode() {
   const [circuit, setCircuit] = useState<RectifierCircuit>("half-wave");
@@ -90,7 +91,7 @@ export default function RectificationMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <div className="mb-1 text-[11px] uppercase tracking-wide text-[#8FA39D]">Oscilloscope: input (blue) vs. output (teal)</div>
           <Chart
             series={[
@@ -104,7 +105,7 @@ export default function RectificationMode() {
             yMin={-vPeak * 1.1}
             yMax={vPeak * 1.1}
           />
-        </div>
+        </FullscreenPanel>
 
         <StatGrid
           stats={[

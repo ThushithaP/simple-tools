@@ -3,6 +3,7 @@ import { GeneratorMotorMode } from "../types";
 import { DC_AVERAGE_FACTOR, motorStep, rpmToOmega } from "../physics";
 import { SliderField, SegmentedField, StatGrid, EquationBox, MisconceptionTip, PlaybackControls } from "../components/Controls";
 import Chart from "../components/Chart";
+import FullscreenPanel from "../../../components/FullscreenPanel";
 
 const MOTOR_TURNS = 100;
 const MOTOR_AREA_M2 = 0.005;
@@ -23,7 +24,7 @@ export default function DcGeneratorMotorMode() {
   const armatureR = 4;
 
   const [running, setRunning] = useState(true);
-  const [speed, setSpeed] = useState(1);
+  const [speed, setSpeed] = useState(0.1);
   const thetaRef = useRef(0);
   const omegaMotorRef = useRef(0);
   const [, forceRender] = useState(0);
@@ -146,9 +147,9 @@ export default function DcGeneratorMotorMode() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
+        <FullscreenPanel>
           <CommutatorCoil thetaRad={thetaRef.current} spinning={mode === "motor" ? omegaMotorRef.current > 0.1 : true} />
-        </div>
+        </FullscreenPanel>
         <div className="rounded border border-[#2A3A37] bg-[#0D1412] p-4">
           <div className="mb-1 text-[11px] uppercase tracking-wide text-[#8FA39D]">{mode === "generator" ? "Pulsating DC output" : "Angular speed ω(t)"}</div>
           <Chart series={[{ points: chartPoints, color: "#E85A4A" }]} xLabel="t (s)" yLabel={mode === "generator" ? "V" : "rad/s"} xMax={3} yMin={0} yMax={chartMax} />
