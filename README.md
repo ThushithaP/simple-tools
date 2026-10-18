@@ -1,4 +1,4 @@
-# Tools
+# Simple Tools
 
 A collection of interactive science and maths tools for O-Level / Grade 11 students, lab technicians, and teachers. It is built as a single installable PWA. Every tool is a self-contained page registered in one central list, and the home page renders a card for each.
 

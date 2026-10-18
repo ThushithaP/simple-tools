@@ -13,8 +13,8 @@ export default defineConfig({
             registerType: 'autoUpdate',
             includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
             manifest: {
-                name: 'Tools',
-                short_name: 'Tools',
+                name: 'Simple Tools',
+                short_name: 'Simple Tools',
                 description: 'A collection of useful online tools',
                 theme_color: '#0f172a',
                 background_color: '#ffffff',
